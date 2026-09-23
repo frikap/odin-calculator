@@ -1,6 +1,6 @@
 # Calculator
 
-A clean, responsive, and user-friendly web calculator built with HTML, CSS, and JavaScript, built as part of [The Odin Project](https://www.theodinproject.com/) Foundations curriculum.
+A clean, responsive, and user-friendly web calculator built with HTML, CSS, and JavaScript. Built as part of [The Odin Project](https://www.theodinproject.com/) Foundations curriculum.
 
 ## Features
 
