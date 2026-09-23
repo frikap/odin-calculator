@@ -167,7 +167,7 @@ actionButtons.forEach((button) => {
   });
 });
 
-// --- 6. Soporte para teclado físico (Extra Credit) ---
+// --- 6. Soporte para teclado físico ---
 window.addEventListener("keydown", (e) => {
   if ((e.key >= "0" && e.key <= "9") || e.key === ".") {
     appendNumber(e.key);
