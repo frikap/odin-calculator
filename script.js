@@ -82,18 +82,32 @@ function deleteNumber() {
 }
 
 function appendNumber(number) {
-  // If an operator or the equals sign is pressed, the number on the display resets
-  if (currentOperandDisplay.textContent === "0" || shouldResetScreen) {
+  // If an operator or the equals sign is pressed, the screen is cleared
+  if (shouldResetScreen) {
     resetScreen();
   }
 
-  // prevent multiple decimal points 
-  if (number === "." && currentOperandDisplay.textContent.includes(".")) {
-    return;
+  // handling of the decimal point
+  if (number === ".") {
+    // if it already has a decimal point, it stops
+    if (currentOperandDisplay.textContent.includes(".")) return;
+
+    // if the display is blank or shows "0", it automatically becomes "0."
+    if (currentOperandDisplay.textContent === "" || currentOperandDisplay.textContent === "0") {
+      currentOperandDisplay.textContent = "0.";
+      return;
+    }
   }
 
+  // if a number is pressed and the screen showed only "0", replace it
+  if (currentOperandDisplay.textContent === "0") {
+    currentOperandDisplay.textContent = "";
+  }
+
+  // add the number or character
   currentOperandDisplay.textContent += number;
 }
+
 
 function resetScreen() {
   currentOperandDisplay.textContent = "";
