@@ -1,4 +1,4 @@
-// --- 1. Operaciones básicas ---
+// basic operations 
 function add(a, b) {
   return a + b;
 }
@@ -18,7 +18,7 @@ function divide(a, b) {
   return a / b;
 }
 
-// --- 2. Función operate ---
+// operate function
 function operate(operator, a, b) {
   a = Number(a);
   b = Number(b);
@@ -37,13 +37,13 @@ function operate(operator, a, b) {
   }
 }
 
-// --- 3. Variables de estado de la calculadora ---
+// calculator state variables
 let firstOperand = "";
 let secondOperand = "";
 let currentOperator = null;
 let shouldResetScreen = false;
 
-// Referencias a los elementos del DOM
+// references to DOM elements
 const currentOperandDisplay = document.getElementById("current-operand");
 const previousOperandDisplay = document.getElementById("previous-operand");
 
@@ -51,14 +51,12 @@ const numberButtons = document.querySelectorAll("[data-number]");
 const operatorButtons = document.querySelectorAll("[data-operator]");
 const actionButtons = document.querySelectorAll("[data-action]");
 
-// --- 4. Funciones de actualización y flujo ---
-
-// Redondear respuestas largas para que no desborden la pantalla
+// truncate long responses so they don't overflow the screen
 function roundResult(number) {
   return Math.round(number * 100000) / 100000;
 }
 
-// Reiniciar calculadora completamente (AC)
+// reset calculator (AC)
 function clearAll() {
   firstOperand = "";
   secondOperand = "";
@@ -68,7 +66,7 @@ function clearAll() {
   previousOperandDisplay.textContent = "";
 }
 
-// Eliminar el último dígito ingresado (DEL / Backspace)
+// delete the last digit entered (DEL / Backspace)
 function deleteNumber() {
   if (shouldResetScreen) return;
   if (currentOperandDisplay.textContent === "Good try, Einstein!") {
@@ -83,14 +81,13 @@ function deleteNumber() {
   }
 }
 
-// Manejo del ingreso de números y del punto decimal
 function appendNumber(number) {
-  // Si acabamos de pulsar un operador o el signo igual, reiniciamos el número en pantalla
+  // If an operator or the equals sign is pressed, the number on the display resets
   if (currentOperandDisplay.textContent === "0" || shouldResetScreen) {
     resetScreen();
   }
 
-  // Prevenir múltiples puntos decimales (Extra Credit)
+  // prevent multiple decimal points 
   if (number === "." && currentOperandDisplay.textContent.includes(".")) {
     return;
   }
@@ -103,7 +100,7 @@ function resetScreen() {
   shouldResetScreen = false;
 }
 
-// Símbolo amigable para la vista superior
+// eye-friendly symbol for top view
 function getDisplaySymbol(operator) {
   if (operator === "/") return "÷";
   if (operator === "*") return "×";
@@ -111,9 +108,8 @@ function getDisplaySymbol(operator) {
   return "+";
 }
 
-// Manejo de operadores (+, -, *, /)
+// handling operators (+, -, *, /)
 function setOperation(operator) {
-  // Si ya hay un operador pendiente y el usuario no está justo cambiando de operador, calculamos
   if (currentOperator !== null && !shouldResetScreen) {
     evaluate();
   }
@@ -124,7 +120,7 @@ function setOperation(operator) {
   shouldResetScreen = true;
 }
 
-// Ejecutar la operación (=)
+// perform the operation (=)
 function evaluate() {
   if (currentOperator === null || shouldResetScreen) return;
 
@@ -132,7 +128,7 @@ function evaluate() {
   const result = operate(currentOperator, firstOperand, secondOperand);
 
   if (typeof result === "string") {
-    // Si retornó el mensaje de error por división por cero
+    // if the division-by-zero error message was returned
     currentOperandDisplay.textContent = result;
     previousOperandDisplay.textContent = "";
     firstOperand = "";
@@ -149,7 +145,7 @@ function evaluate() {
   shouldResetScreen = true;
 }
 
-// --- 5. Event Listeners para clicks en pantalla ---
+// event listeners for screen clicks
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => appendNumber(button.dataset.number));
 });
@@ -167,14 +163,14 @@ actionButtons.forEach((button) => {
   });
 });
 
-// --- 6. Soporte para teclado físico ---
+// keyboard support
 window.addEventListener("keydown", (e) => {
   if ((e.key >= "0" && e.key <= "9") || e.key === ".") {
     appendNumber(e.key);
   } else if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
     setOperation(e.key);
   } else if (e.key === "Enter" || e.key === "=") {
-    e.preventDefault(); // Evita pulsar por defecto el último botón enfocado
+    e.preventDefault(); // avoid pressing the last focused button by default
     evaluate();
   } else if (e.key === "Backspace") {
     deleteNumber();
